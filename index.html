@@ -3,23 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phaser Clicker Game</title>
+    <title>Idle Rob Tycoon</title>
     <style>
         body {
             margin: 0;
             padding: 0;
             background-color: #000;
+            display: flex; /* Use flexbox para o layout principal */
+            height: 100vh;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            color: #eee;
+        }
+        #game-container {
+            flex-grow: 1; /* Ocupa o espaço restante */
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            overflow: hidden;
+            height: 100%;
+        }
+        #sidebar {
+            width: 250px; /* Largura inicial da sidebar */
+            min-width: 50px;
+            max-width: 500px;
+            background-color: #222;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.5);
+            transition: width 0.3s ease, transform 0.3s ease; /* Transição suave para redimensionar e esconder/mostrar */
+            overflow: visible; /* Importante para o botão e resizer aparecerem */
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+        #sidebar.hidden {
+            transform: translateX(-100%); /* Esconde para a esquerda */
+            width: 0 !important; /* Força largura 0 quando escondido */
+            min-width: 0;
+        }
+        #sidebar.hidden #sidebar-content,
+        #sidebar.hidden #resizer {
+            display: none; /* Oculta conteúdo e resizer quando a sidebar está escondida */
+        }
+        #sidebar-content {
+            padding: 15px;
+            overflow-y: auto;
+            flex-grow: 1;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        #resizer {
+            width: 5px;
+            cursor: col-resize;
+            background-color: #444;
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 5;
+        }
+        #resizer:hover {
+            background-color: #666;
+        }
+        #toggleSidebar {
+            background-color: #555;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: -35px; /* Sempre visível à direita da sidebar */
+            border-radius: 0 5px 5px 0;
+            z-index: 10;
+            display: block;
         }
     </style>
     <!-- Importação do Phaser via CDN -->
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser-arcade-physics.min.js"></script>
 </head>
 <body>
-    <script src="game.js"></script>
+    <div id="sidebar">
+        <div id="sidebar-content">
+            <h2>Menu do Jogo</h2>
+            <p>Conteúdo da sidebar aqui.</p>
+        </div>
+        <div id="resizer"></div>
+        <button id="toggleSidebar"> &lt; </button>
+    </div>
+    <div id="game-container">
+        <script src="game.js"></script>
+    </div>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const toggleButton = document.getElementById('toggleSidebar');
+        const resizer = document.getElementById('resizer');
+        let isSidebarHidden = false;
+        let isResizing = false;
+
+        /**
+         * Alterna a visibilidade da sidebar.
+         * Quando oculta, a sidebar desliza para fora da tela à esquerda.
+         */
+        toggleButton.addEventListener('click', () => {
+            isSidebarHidden = !isSidebarHidden;
+            if (isSidebarHidden) {
+                sidebar.classList.add('hidden');
+                toggleButton.textContent = ' > ';
+            } else {
+                sidebar.classList.remove('hidden');
+                toggleButton.textContent = ' < ';
+            }
+        });
+
+        /**
+         * Gerencia o redimensionamento da sidebar via drag.
+         */
+        resizer.addEventListener('mousedown', (e) => {
+            isResizing = true;
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', stopResizing);
+            document.body.style.cursor = 'col-resize'; // Muda cursor durante o drag
+        });
+
+        function handleMouseMove(e) {
+            if (!isResizing) return;
+            const newWidth = e.clientX;
+            // Limita o tamanho da sidebar entre 150px e 500px
+            if (newWidth > 150 && newWidth < 500) {
+                sidebar.style.width = `${newWidth}px`;
+            }
+        }
+
+        function stopResizing() {
+            isResizing = false;
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', stopResizing);
+            document.body.style.cursor = 'default';
+        }
+    </script>
 </body>
 </html>
