@@ -1,0 +1,16 @@
+/* Estilos customizados utilizando as diretivas do Tailwind */
+@layer components {
+    .sidebar-transition {
+        @apply transition-[width,transform] duration-300 ease-in-out;
+    }
+    #sidebar.hidden {
+        @apply -translate-x-full;
+        width: 0 !important;
+        min-width: 0 !important;
+        overflow: visible !important;
+    }
+    #sidebar.hidden #sidebar-content,
+    #sidebar.hidden #resizer {
+        @apply hidden;
+    }
+}

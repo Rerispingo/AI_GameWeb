@@ -8,15 +8,17 @@ Este é um projeto base para o jogo web **Idle Rob Tycoon**, desenvolvido com a 
 - **HTML5 / JavaScript (ES6+)**
 
 ## 📂 Estrutura de Arquivos
-- `index.html`: Ponto de entrada. Configura o canvas, carrega a biblioteca Phaser e o script do jogo, e utiliza Tailwind CSS para uma interface moderna.
-- `game.js`: Contém toda a lógica do jogo (configuração, cenas e interações). Documentado com comentários claros.
+- `index.html`: Ponto de entrada simplificado.
+- `src/`: Pasta contendo o código fonte organizado.
+    - `components/`: Componentes da interface modularizados (ex: `sidebar.js`).
+    - `scripts/`: Lógica do jogo e scripts auxiliares (ex: `game.js`).
+    - `styles/`: Arquivos de estilização e configurações do Tailwind (ex: `styles.css`, `tailwind-config.js`).
 - `icons/`: Pasta contendo assets vetoriais (SVG) utilizados na interface do usuário.
 
 ## ✨ Novidades
-- **Estilização com Tailwind CSS**: Todo o CSS foi refatorado para utilizar classes utilitárias do Tailwind, facilitando a manutenção e permitindo um design mais rico e responsivo.
-- **Sidebar Interativa**: 
-    - **Redimensionamento (Resize)**: Borda lateral arrastável para ajuste dinâmico de largura.
-    - **UI Aprimorada**: Agora inclui uma seção de "Loja" para futuras implementações, removendo as seções de "Melhorias" e "Estatísticas" para simplificar o painel.
+- **Modularização**: O código foi totalmente organizado em pastas e arquivos separados para facilitar a manutenção.
+- **Estilização com Tailwind CSS**: Todo o CSS foi extraído para arquivos externos, incluindo a configuração do tema.
+- **Sidebar Interativa**: Agora é um componente modular que injeta seu próprio HTML e lógica.
 - **Layout Flexbox**: Organização harmoniosa entre o canvas do jogo e a barra lateral.
 
 ## 🧠 Contexto para AI (Prompt Optimization)

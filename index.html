@@ -5,97 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Idle Rob Tycoon</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        sidebar: '#222',
-                        resizer: '#444',
-                        'resizer-hover': '#666',
-                        toggle: '#555',
-                    }
-                }
-            }
-        }
-    </script>
-    <style type="text/tailwindcss">
-        @layer components {
-            .sidebar-transition {
-                @apply transition-[width,transform] duration-300 ease-in-out;
-            }
-            #sidebar.hidden {
-                @apply -translate-x-full;
-                width: 0 !important;
-                min-width: 0 !important;
-                overflow: visible !important;
-            }
-            #sidebar.hidden #sidebar-content,
-            #sidebar.hidden #resizer {
-                @apply hidden;
-            }
-        }
-    </style>
+    <script src="src/styles/tailwind-config.js"></script>
+    <link rel="stylesheet" href="src/styles/styles.css">
     <!-- Importação do Phaser via CDN -->
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser-arcade-physics.min.js"></script>
 </head>
 <body class="bg-black flex h-screen overflow-hidden font-sans text-gray-200">
-    <div id="sidebar" class="w-[250px] min-w-[50px] max-w-[500px] bg-sidebar shadow-[2px_0_5px_rgba(0,0,0,0.5)] sidebar-transition visible relative flex flex-col shrink-0">
-        <div id="sidebar-content" class="p-6 overflow-y-auto flex-grow w-full box-border space-y-6">
-            <header>
-                <h2 class="text-2xl font-bold text-white tracking-tight">Idle Rob Tycoon</h2>
-                <p class="text-sm text-gray-400 mt-1 uppercase tracking-widest font-semibold">Painel de Controle</p>
-            </header>
-            
-            <section class="space-y-4">
-                <h3 class="text-lg font-semibold text-gray-100 border-b border-gray-700 pb-2">Loja</h3>
-                <div class="bg-zinc-800/50 p-4 rounded-lg border border-gray-700">
-                    <p class="text-gray-400">Itens da loja virão aqui.</p>
-                </div>
-            </section>
-            
-
-
-
-        </div>
-        <div id="resizer" class="w-[5px] cursor-col-resize bg-resizer absolute right-0 top-0 bottom-0 z-[5] hover:bg-resizer-hover"></div>
-    </div>
     <div id="game-container" class="flex-grow flex justify-center items-center h-full">
-        <script src="game.js"></script>
+        <script src="src/scripts/game.js"></script>
     </div>
 
-    <script>
-        const sidebar = document.getElementById('sidebar');
-        const resizer = document.getElementById('resizer');
-        let isResizing = false;
-
-        /**
-         * Gerencia o redimensionamento da sidebar via drag.
-         */
-        resizer.addEventListener('mousedown', (e) => {
-            isResizing = true;
-            sidebar.classList.remove('sidebar-transition'); // Desabilita a transição durante o redimensionamento
-            document.addEventListener('mousemove', handleMouseMove);
-            document.addEventListener('mouseup', stopResizing);
-            document.body.style.cursor = 'col-resize'; // Muda cursor durante o drag
-        });
-
-        function handleMouseMove(e) {
-            if (!isResizing) return;
-            const newWidth = e.clientX;
-            // Limita o tamanho da sidebar entre 150px e 500px
-            if (newWidth > 150 && newWidth < 500) {
-                sidebar.style.width = `${newWidth}px`;
-            }
-        }
-
-        function stopResizing() {
-            isResizing = false;
-            sidebar.classList.add('sidebar-transition'); // Reabilita a transição após o redimensionamento
-            document.removeEventListener('mousemove', handleMouseMove);
-            document.removeEventListener('mouseup', stopResizing);
-            document.body.style.cursor = 'default';
-        }
-    </script>
+    <!-- Componentes -->
+    <script src="src/components/sidebar.js"></script>
 </body>
 </html>
