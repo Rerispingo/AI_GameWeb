@@ -1,11 +1,11 @@
 # Idle Rob Tycoon
 
-Este é um projeto base para o jogo web **Idle Rob Tycoon**, desenvolvido com a biblioteca **Phaser 3**. O objetivo é servir como um ponto de partida otimizado para desenvolvimento assistido por AI, agora com uma interface mais rica.
+Este é um projeto base para o jogo web **Idle Rob Tycoon**, desenvolvido com **Vanilla JavaScript, HTML5 e Tailwind CSS**. O objetivo é servir como um ponto de partida leve e modular para desenvolvimento assistido por AI.
 
 ## 🛠 Tecnologias
-- **Phaser 3.60.0** (via CDN)
-- **Tailwind CSS** (via CDN para estilização)
 - **HTML5 / JavaScript (ES6+)**
+- **Tailwind CSS** (via CDN para estilização)
+- **DOM API** para manipulação da interface e lógica de jogo
 
 ## 📂 Estrutura de Arquivos
 - `index.html`: Ponto de entrada simplificado.
@@ -24,15 +24,16 @@ Este é um projeto base para o jogo web **Idle Rob Tycoon**, desenvolvido com a 
 ## 🧠 Contexto para AI (Prompt Optimization)
 Ao realizar modificações neste projeto, considere:
 1. **Lógica de Estado**: O dinheiro do jogador é mantido pela variável global `money`.
-2. **Responsividade e Qualidade**: O jogo utiliza `Phaser.Scale.RESIZE` e `resolution: window.devicePixelRatio`. Foi forçado o modo `Phaser.WEBGL` e ativado `roundPixels: true` para garantir nitidez máxima e evitar o aspecto embaçado.
-3. **Interatividade**: O botão de ação e o slider de progresso estão posicionados horizontalmente. O slider possui margens fixas de segurança (`horizontalPadding: 100`) para evitar que encoste nas extremidades da página.
-4. **Coordenadas**: Elementos são posicionados dinamicamente via função `setupLayout` com `Math.floor`, garantindo que os objetos fiquem alinhados perfeitamente à grade de pixels.
+2. **Interface DOM**: O jogo não utiliza Canvas ou Phaser. Todos os elementos visuais são elementos HTML reais manipulados via JS e estilizados com Tailwind CSS.
+3. **Interatividade**: O botão de ação e a barra de progresso ocupam quase toda a largura da tela (`max-w-[98%]`) para maximizar o uso do espaço.
+4. **Design**: O slider de progresso possui a mesma altura que o botão de ação (`h-20`) e bordas levemente arredondadas (`rounded-md`) para um visual mais robusto e industrial.
+5. **Modularização**: Scripts de jogo estão em `src/scripts/game.js` e componentes de UI em `src/components/`.
 
 ## 🚀 Como Executar
-Basta abrir o arquivo `index.html` em um navegador. Para evitar problemas de CORS com assets futuros, recomenda-se usar um servidor local (ex: `Live Server` do VS Code ou `python -m http.server`).
+Basta abrir o arquivo `index.html` em um navegador. Recomenda-se usar um servidor local (ex: `Live Server` do VS Code).
 
 ## 📝 Notas de Implementação
-- **Qualidade Visual**: Forçado WebGL e arredondamento de pixels para eliminar o blur. Removido conflito de centralização do Flexbox no `index.html`.
-- **Mecânica de Ação**: Botão à esquerda e Slider à direita. O Slider agora respeita uma margem de 100px, garantindo elegância visual.
-- **Responsividade**: O sistema de layout recalcula e reposiciona todos os elementos em tempo real ao redimensionar a janela.
+- **Performance**: Utilização de `requestAnimationFrame` para o slider de progresso, garantindo 60fps sem sobrecarga.
+- **Mecânica de Ação**: Botão à esquerda e Barra de Progresso à direita, seguindo o layout original mas agora com elementos HTML nativos.
+- **Responsividade**: Layout baseado em Flexbox do Tailwind CSS, adaptando-se automaticamente a diferentes tamanhos de tela.
 
