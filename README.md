@@ -20,6 +20,7 @@ Este é um projeto base para o jogo web **Idle Rob Tycoon**, desenvolvido com **
 - **Estilização com Tailwind CSS**: Todo o CSS foi extraído para arquivos externos, incluindo a configuração do tema.
 - **Sidebar Interativa**: Agora é um componente modular que injeta seu próprio HTML e lógica.
 - **Layout Flexbox**: Organização harmoniosa entre o canvas do jogo e a barra lateral.
+- **Sistema de Desbloqueios**: Novo sistema modular para gerenciar o surgimento de novos itens na loja e novas ações baseadas em condições (ex: dinheiro acumulado).
 
 ## 🧠 Contexto para AI (Prompt Optimization)
 Ao realizar modificações neste projeto, considere:
@@ -27,7 +28,8 @@ Ao realizar modificações neste projeto, considere:
 2. **Interface DOM**: O jogo não utiliza Canvas ou Phaser. Todos os elementos visuais são elementos HTML reais manipulados via JS e estilizados com Tailwind CSS.
 3. **Interatividade**: O botão de ação e a barra de progresso ocupam quase toda a largura da tela (`max-w-[98%]`) para maximizar o uso do espaço.
 4. **Design**: O slider de progresso possui a mesma altura que o botão de ação (`h-20`) e bordas levemente arredondadas (`rounded-md`) para um visual mais robusto e industrial.
-5. **Modularização**: Scripts de jogo estão em `src/scripts/game.js` e componentes de UI em `src/components/`.
+5. **Modularização**: Scripts de jogo estão em `src/scripts/game.js`, lógica de desbloqueio em `src/scripts/unlocks.js` e componentes de UI em `src/components/`.
+6. **Desbloqueios**: Use `UnlockSystem.register({ id, condition, onUnlock })` para adicionar novos gatilhos de progressão. O sistema verifica automaticamente as condições sempre que o dinheiro é atualizado.
 
 ## 🚀 Como Executar
 Basta abrir o arquivo `index.html` em um navegador. Recomenda-se usar um servidor local (ex: `Live Server` do VS Code).

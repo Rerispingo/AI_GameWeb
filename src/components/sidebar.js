@@ -19,8 +19,8 @@ const Sidebar = {
                     
                     <section class="space-y-4">
                         <h3 class="text-lg font-semibold text-gray-100 border-b border-gray-700 pb-2">Loja</h3>
-                        <div class="bg-zinc-800/50 p-4 rounded-lg border border-gray-700">
-                            <p class="text-gray-400">Itens da loja virão aqui.</p>
+                        <div id="shop-items" class="space-y-3">
+                            <p class="text-gray-500 italic text-sm">Nenhum item disponível...</p>
                         </div>
                     </section>
                 </div>
@@ -56,6 +56,35 @@ const Sidebar = {
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseup', stopResizing);
             document.body.style.cursor = 'default';
+        }
+
+        // --- PREPARAÇÃO PARA DESBLOQUEIOS NA LOJA ---
+        if (window.UnlockSystem) {
+            window.UnlockSystem.register({
+                id: 'shop-crowbar',
+                condition: () => money >= 0.20, // Desbloqueia com $0.20
+                onUnlock: () => {
+                    const shopContainer = document.getElementById('shop-items');
+                    if (shopContainer) {
+                        // Remove o texto de "nenhum item" se for o primeiro item
+                        if (shopContainer.querySelector('p')) {
+                            shopContainer.innerHTML = '';
+                        }
+                        
+                        const itemHTML = `
+                            <div id="item-crowbar" class="bg-zinc-800 p-3 rounded-lg border border-zinc-700 flex flex-col space-y-2 animate-fade-in">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-white font-bold text-sm">Pé de Cabra</span>
+                                    <span class="text-green-500 font-mono text-xs">$5.00</span>
+                                </div>
+                                <p class="text-zinc-400 text-xs">Aumenta a eficiência dos roubos.</p>
+                                <button class="w-full bg-zinc-700 hover:bg-zinc-600 text-white text-xs py-1.5 rounded transition-colors font-semibold">Comprar</button>
+                            </div>
+                        `;
+                        shopContainer.insertAdjacentHTML('beforeend', itemHTML);
+                    }
+                }
+            });
         }
     }
 };

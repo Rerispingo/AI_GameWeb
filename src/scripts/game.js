@@ -13,6 +13,10 @@ function updateSidebarMoney() {
     if (moneyDisplay) {
         moneyDisplay.textContent = `$${money.toFixed(2)}`;
     }
+    // Verifica desbloqueios sempre que o dinheiro muda
+    if (window.UnlockSystem) {
+        window.UnlockSystem.check();
+    }
 }
 
 /**
@@ -24,8 +28,8 @@ function initGame() {
 
     // Criar estrutura do jogo usando Tailwind
     container.innerHTML = `
-        <div class="flex flex-col items-center justify-center h-full w-full p-2 space-y-8">
-            <div id="action-row" class="flex items-center space-x-6 w-full max-w-[98%] px-4">
+        <div id="game-actions" class="flex flex-col items-center justify-center h-full w-full p-2 space-y-8">
+            <div id="action-rob" class="flex items-center space-x-6 w-full max-w-[98%] px-4">
                 <!-- Botão de Ação -->
                 <button id="rob-button" class="w-64 h-20 bg-red-500 hover:bg-red-400 active:scale-95 transition-all rounded-md font-bold text-white text-lg shadow-lg disabled:opacity-50 disabled:cursor-not-allowed shrink-0">
                     Roubar sacolas de supermercado
@@ -36,6 +40,8 @@ function initGame() {
                     <div id="progress-bar" class="h-full w-0 bg-green-500 transition-none"></div>
                 </div>
             </div>
+            
+            <!-- Novos botões/ações serão injetados aqui pelo sistema de desbloqueio -->
         </div>
     `;
 
@@ -77,6 +83,39 @@ function initGame() {
 
     button.addEventListener('click', startAction);
     
+    // --- PREPARAÇÃO PARA DESBLOQUEIOS ---
+    
+    // Exemplo: Registrar um desbloqueio de nova ação
+    if (window.UnlockSystem) {
+        window.UnlockSystem.register({
+            id: 'action-pickpocket',
+            condition: () => money >= 0.50, // Desbloqueia com $0.50
+            onUnlock: () => {
+                const actionsContainer = document.getElementById('game-actions');
+                if (actionsContainer) {
+                    const newActionHTML = `
+                        <div id="action-pickpocket-row" class="flex items-center space-x-6 w-full max-w-[98%] px-4 animate-fade-in">
+                            <button id="pickpocket-button" class="w-64 h-20 bg-blue-600 hover:bg-blue-500 active:scale-95 transition-all rounded-md font-bold text-white text-lg shadow-lg shrink-0">
+                                Bater carteiras no metrô
+                            </button>
+                            <div class="flex-grow h-20 bg-zinc-800 rounded-md overflow-hidden border border-zinc-700">
+                                <div id="pickpocket-progress" class="h-full w-0 bg-blue-400 transition-none"></div>
+                            </div>
+                        </div>
+                    `;
+                    actionsContainer.insertAdjacentHTML('beforeend', newActionHTML);
+                    
+                    // Adicionar lógica para o novo botão (exemplo simplificado)
+                    const ppButton = document.getElementById('pickpocket-button');
+                    ppButton.addEventListener('click', () => {
+                        // Lógica similar ao startAction, mas com valores diferentes
+                        console.log("Ação de bater carteiras iniciada!");
+                    });
+                }
+            }
+        });
+    }
+
     // Atualização inicial
     updateSidebarMoney();
 }
