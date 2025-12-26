@@ -4,17 +4,20 @@ Este é um projeto base para o jogo web **Idle Rob Tycoon**, desenvolvido com a 
 
 ## 🛠 Tecnologias
 - **Phaser 3.60.0** (via CDN)
-- **HTML5 / CSS3 / JavaScript (ES6+)**
+- **Tailwind CSS** (via CDN para estilização)
+- **HTML5 / JavaScript (ES6+)**
 
 ## 📂 Estrutura de Arquivos
-- `index.html`: Ponto de entrada. Configura o canvas, carrega a biblioteca Phaser e o script do jogo, e agora inclui a estrutura da sidebar.
-- `game.js`: Contém toda a lógica do jogo (configuração, cenas e interações). **Foi documentado com comentários adicionais para maior clareza.**
+- `index.html`: Ponto de entrada. Configura o canvas, carrega a biblioteca Phaser e o script do jogo, e utiliza Tailwind CSS para uma interface moderna.
+- `game.js`: Contém toda a lógica do jogo (configuração, cenas e interações). Documentado com comentários claros.
+- `icons/`: Pasta contendo assets vetoriais (SVG) utilizados na interface do usuário.
 
 ## ✨ Novidades
-- **Sidebar Interativa**: Adicionada uma barra lateral com as seguintes funcionalidades:
-    - **Toggle (Ocultar/Mostrar)**: Botão flutuante que permite recolher a barra para ganhar espaço.
-    - **Redimensionamento (Resize)**: Borda lateral arrastável para ajustar a largura da sidebar conforme a necessidade.
-- **Melhorias de UI**: Layout baseado em Flexbox para garantir que o jogo e a sidebar coexistam harmoniosamente.
+- **Estilização com Tailwind CSS**: Todo o CSS foi refatorado para utilizar classes utilitárias do Tailwind, facilitando a manutenção e permitindo um design mais rico e responsivo.
+- **Sidebar Interativa**: 
+    - **Redimensionamento (Resize)**: Borda lateral arrastável para ajuste dinâmico de largura.
+    - **UI Aprimorada**: Agora inclui uma seção de "Loja" para futuras implementações, removendo as seções de "Melhorias" e "Estatísticas" para simplificar o painel.
+- **Layout Flexbox**: Organização harmoniosa entre o canvas do jogo e a barra lateral.
 
 ## 🧠 Contexto para AI (Prompt Optimization)
 Ao realizar modificações neste projeto, considere:

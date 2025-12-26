@@ -4,123 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Idle Rob Tycoon</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #000;
-            display: flex; /* Use flexbox para o layout principal */
-            height: 100vh;
-            overflow: hidden;
-            font-family: Arial, sans-serif;
-            color: #eee;
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sidebar: '#222',
+                        resizer: '#444',
+                        'resizer-hover': '#666',
+                        toggle: '#555',
+                    }
+                }
+            }
         }
-        #game-container {
-            flex-grow: 1; /* Ocupa o espaço restante */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-        }
-        #sidebar {
-            width: 250px; /* Largura inicial da sidebar */
-            min-width: 50px;
-            max-width: 500px;
-            background-color: #222;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.5);
-            transition: width 0.3s ease, transform 0.3s ease; /* Transição suave para redimensionar e esconder/mostrar */
-            overflow: visible; /* Importante para o botão e resizer aparecerem */
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            flex-shrink: 0;
-        }
-        #sidebar.hidden {
-            transform: translateX(-100%); /* Esconde para a esquerda */
-            width: 0 !important; /* Força largura 0 quando escondido */
-            min-width: 0;
-        }
-        #sidebar.hidden #sidebar-content,
-        #sidebar.hidden #resizer {
-            display: none; /* Oculta conteúdo e resizer quando a sidebar está escondida */
-        }
-        #sidebar-content {
-            padding: 15px;
-            overflow-y: auto;
-            flex-grow: 1;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        #resizer {
-            width: 5px;
-            cursor: col-resize;
-            background-color: #444;
-            position: absolute;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            z-index: 5;
-        }
-        #resizer:hover {
-            background-color: #666;
-        }
-        #toggleSidebar {
-            background-color: #555;
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            cursor: pointer;
-            position: absolute;
-            top: 10px;
-            right: -35px; /* Sempre visível à direita da sidebar */
-            border-radius: 0 5px 5px 0;
-            z-index: 10;
-            display: block;
+    </script>
+    <style type="text/tailwindcss">
+        @layer components {
+            .sidebar-transition {
+                @apply transition-[width,transform] duration-300 ease-in-out;
+            }
+            #sidebar.hidden {
+                @apply -translate-x-full;
+                width: 0 !important;
+                min-width: 0 !important;
+                overflow: visible !important;
+            }
+            #sidebar.hidden #sidebar-content,
+            #sidebar.hidden #resizer {
+                @apply hidden;
+            }
         }
     </style>
     <!-- Importação do Phaser via CDN -->
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser-arcade-physics.min.js"></script>
 </head>
-<body>
-    <div id="sidebar">
-        <div id="sidebar-content">
-            <h2>Menu do Jogo</h2>
-            <p>Conteúdo da sidebar aqui.</p>
+<body class="bg-black flex h-screen overflow-hidden font-sans text-gray-200">
+    <div id="sidebar" class="w-[250px] min-w-[50px] max-w-[500px] bg-sidebar shadow-[2px_0_5px_rgba(0,0,0,0.5)] sidebar-transition visible relative flex flex-col shrink-0">
+        <div id="sidebar-content" class="p-6 overflow-y-auto flex-grow w-full box-border space-y-6">
+            <header>
+                <h2 class="text-2xl font-bold text-white tracking-tight">Idle Rob Tycoon</h2>
+                <p class="text-sm text-gray-400 mt-1 uppercase tracking-widest font-semibold">Painel de Controle</p>
+            </header>
+            
+            <section class="space-y-4">
+                <h3 class="text-lg font-semibold text-gray-100 border-b border-gray-700 pb-2">Loja</h3>
+                <div class="bg-zinc-800/50 p-4 rounded-lg border border-gray-700">
+                    <p class="text-gray-400">Itens da loja virão aqui.</p>
+                </div>
+            </section>
+            
+
+
+
         </div>
-        <div id="resizer"></div>
-        <button id="toggleSidebar"> &lt; </button>
+        <div id="resizer" class="w-[5px] cursor-col-resize bg-resizer absolute right-0 top-0 bottom-0 z-[5] hover:bg-resizer-hover"></div>
     </div>
-    <div id="game-container">
+    <div id="game-container" class="flex-grow flex justify-center items-center h-full">
         <script src="game.js"></script>
     </div>
 
     <script>
         const sidebar = document.getElementById('sidebar');
-        const toggleButton = document.getElementById('toggleSidebar');
         const resizer = document.getElementById('resizer');
-        let isSidebarHidden = false;
         let isResizing = false;
-
-        /**
-         * Alterna a visibilidade da sidebar.
-         * Quando oculta, a sidebar desliza para fora da tela à esquerda.
-         */
-        toggleButton.addEventListener('click', () => {
-            isSidebarHidden = !isSidebarHidden;
-            if (isSidebarHidden) {
-                sidebar.classList.add('hidden');
-                toggleButton.textContent = ' > ';
-            } else {
-                sidebar.classList.remove('hidden');
-                toggleButton.textContent = ' < ';
-            }
-        });
 
         /**
          * Gerencia o redimensionamento da sidebar via drag.
          */
         resizer.addEventListener('mousedown', (e) => {
             isResizing = true;
+            sidebar.classList.remove('sidebar-transition'); // Desabilita a transição durante o redimensionamento
             document.addEventListener('mousemove', handleMouseMove);
             document.addEventListener('mouseup', stopResizing);
             document.body.style.cursor = 'col-resize'; // Muda cursor durante o drag
@@ -137,6 +91,7 @@
 
         function stopResizing() {
             isResizing = false;
+            sidebar.classList.add('sidebar-transition'); // Reabilita a transição após o redimensionamento
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseup', stopResizing);
             document.body.style.cursor = 'default';
