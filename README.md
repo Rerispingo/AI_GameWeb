@@ -23,15 +23,16 @@ Este é um projeto base para o jogo web **Idle Rob Tycoon**, desenvolvido com a 
 
 ## 🧠 Contexto para AI (Prompt Optimization)
 Ao realizar modificações neste projeto, considere:
-1. **Lógica de Estado**: O contador de cliques é mantido pela variável global `count`.
-2. **Cena Única**: O jogo utiliza a configuração de cena inline dentro do objeto `config`.
-3. **Interatividade**: O botão é um `Phaser.GameObjects.Rectangle` com listeners de eventos (`pointerdown`, `pointerover`, `pointerout`).
-4. **Coordenadas**: O canvas tem 800x600. Elementos centrais estão em (400, 200) e (400, 400).
-5. **Layout Flexbox**: O `index.html` agora utiliza flexbox para organizar o jogo e a sidebar, permitindo layouts responsivos.
+1. **Lógica de Estado**: O dinheiro do jogador é mantido pela variável global `money`.
+2. **Responsividade e Qualidade**: O jogo utiliza `Phaser.Scale.RESIZE` e `resolution: window.devicePixelRatio`. Foi forçado o modo `Phaser.WEBGL` e ativado `roundPixels: true` para garantir nitidez máxima e evitar o aspecto embaçado.
+3. **Interatividade**: O botão de ação e o slider de progresso estão posicionados horizontalmente. O slider possui margens fixas de segurança (`horizontalPadding: 100`) para evitar que encoste nas extremidades da página.
+4. **Coordenadas**: Elementos são posicionados dinamicamente via função `setupLayout` com `Math.floor`, garantindo que os objetos fiquem alinhados perfeitamente à grade de pixels.
 
 ## 🚀 Como Executar
 Basta abrir o arquivo `index.html` em um navegador. Para evitar problemas de CORS com assets futuros, recomenda-se usar um servidor local (ex: `Live Server` do VS Code ou `python -m http.server`).
 
 ## 📝 Notas de Implementação
-- **Botão**: Criado manualmente com um retângulo e um texto sobreposto para evitar dependência de imagens externas (assets).
-- **Feedback**: Há um delay de 100ms no clique para feedback visual de cor.
+- **Qualidade Visual**: Forçado WebGL e arredondamento de pixels para eliminar o blur. Removido conflito de centralização do Flexbox no `index.html`.
+- **Mecânica de Ação**: Botão à esquerda e Slider à direita. O Slider agora respeita uma margem de 100px, garantindo elegância visual.
+- **Responsividade**: O sistema de layout recalcula e reposiciona todos os elementos em tempo real ao redimensionar a janela.
+

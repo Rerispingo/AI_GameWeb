@@ -10,6 +10,11 @@ const Sidebar = {
                     <header>
                         <h2 class="text-2xl font-bold text-white tracking-tight">Idle Rob Tycoon</h2>
                         <p class="text-sm text-gray-400 mt-1 uppercase tracking-widest font-semibold">Painel de Controle</p>
+                        <!-- Exibição de dinheiro atualizada via scripts/game.js -->
+                        <div class="mt-4 p-3 bg-zinc-800 rounded-lg border border-yellow-500/30 flex items-center justify-between">
+                            <span class="text-gray-400 text-xs uppercase font-bold tracking-tighter">Dinheiro</span>
+                            <span id="money-display" class="text-xl font-mono text-yellow-500 font-bold">$0.00</span>
+                        </div>
                     </header>
                     
                     <section class="space-y-4">
